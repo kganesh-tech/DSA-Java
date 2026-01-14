@@ -23,4 +23,5 @@ This folder contains the solutions for **Day-1** problems focused on **Arrays**.
 
 1. Open each ".java" file in a Java IDE or Java online compiler
 2. Run the 'main()' method.
+
 3. Output will be printed in the console
