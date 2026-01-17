@@ -141,4 +141,5 @@ public class ArrayAnalyzer {
     System.out.println(findDuplicate(nums));
     System.out.println(frequencyAnalyzer(nums));
 }
+
 }
