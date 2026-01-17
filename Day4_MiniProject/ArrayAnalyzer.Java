@@ -1,0 +1,144 @@
+import java.util.*;
+
+public class ArrayAnalyzer {
+
+    public static int majorityElement(int[] nums) {
+        int candidate = 0, count = 0;
+        for (int num : nums) {
+            if (count == 0) {
+                candidate = num;
+                count = 1;
+            } else if (num == candidate) {
+                count++;
+            } else {
+                count--;
+            }
+        }
+        count = 0;
+        for (int num : nums) {
+            if (num == candidate) count++;
+        }
+        return count > nums.length / 2 ? candidate : -1;
+    }
+
+    public static List<Integer> majorityElementN3(int[] nums) {
+        int cand1 = 0, cand2 = 0, cnt1 = 0, cnt2 = 0;
+
+        for (int num : nums) {
+            if (num == cand1) cnt1++;
+            else if (num == cand2) cnt2++;
+            else if (cnt1 == 0) {
+                cand1 = num;
+                cnt1 = 1;
+            } else if (cnt2 == 0) {
+                cand2 = num;
+                cnt2 = 1;
+            } else {
+                cnt1--;
+                cnt2--;
+            }
+        }
+
+        cnt1 = cnt2 = 0;
+        for (int num : nums) {
+            if (num == cand1) cnt1++;
+            else if (num == cand2) cnt2++;
+        }
+
+        List<Integer> result = new ArrayList<>();
+        if (cnt1 > nums.length / 3) result.add(cand1);
+        if (cnt2 > nums.length / 3) result.add(cand2);
+        return result;
+    }
+
+    public static int maxSubarraySum(int[] nums) {
+        int maxSum = nums[0], currSum = nums[0];
+        for (int i = 1; i < nums.length; i++) {
+            currSum = Math.max(nums[i], currSum + nums[i]);
+            maxSum = Math.max(maxSum, currSum);
+        }
+        return maxSum;
+    }
+
+    public static int longestSubarraySumK(int[] nums, int k) {
+        Map<Integer, Integer> map = new HashMap<>();
+        map.put(0, -1);
+        int sum = 0, maxLen = 0;
+
+        for (int i = 0; i < nums.length; i++) {
+            sum += nums[i];
+            if (map.containsKey(sum - k)) {
+                maxLen = Math.max(maxLen, i - map.get(sum - k));
+            }
+            map.putIfAbsent(sum, i);
+        }
+        return maxLen;
+    }
+
+    public static int longestSubstringWithoutRepeating(String s) {
+        Set<Character> set = new HashSet<>();
+        int left = 0, maxLen = 0;
+
+        for (int right = 0; right < s.length(); right++) {
+            char ch = s.charAt(right);
+            while (set.contains(ch)) {
+                set.remove(s.charAt(left));
+                left++;
+            }
+            set.add(ch);
+            maxLen = Math.max(maxLen, right - left + 1);
+        }
+        return maxLen;
+    }
+
+    public static int longestConsecutiveSequence(int[] nums) {
+        Set<Integer> set = new HashSet<>();
+        for (int num : nums) set.add(num);
+
+        int maxLen = 0;
+        for (int num : nums) {
+            if (!set.contains(num - 1)) {
+                int curr = num, len = 1;
+                while (set.contains(curr + 1)) {
+                    curr++;
+                    len++;
+                }
+                maxLen = Math.max(maxLen, len);
+            }
+        }
+        return maxLen;
+    }
+
+    public static int findDuplicate(int[] nums) {
+        Set<Integer> set = new HashSet<>();
+        for (int num : nums) {
+            if (set.contains(num)) return num;
+            set.add(num);
+        }
+        return -1;
+    }
+
+    public static Map<Integer, Integer> frequencyCount(int[] nums) {
+        Map<Integer, Integer> freq = new HashMap<>();
+        for (int num : nums) {
+            freq.put(num, freq.getOrDefault(num, 0) + 1);
+        }
+        return freq;
+    }
+
+    public static void main(String[] args) {
+
+    int[] nums = {2, 2, 1, 2, 3, 2, 2};
+    int k = 4;
+    String s = "abcabcbb";
+
+    System.out.println(majorityElement(nums));
+    System.out.println(majorityElementII(nums));
+    System.out.println(maxSubarraySum(nums));
+    System.out.println(longestSubarraySumK(nums, k));
+    System.out.println(lengthOfLongestSubstring(s));
+    System.out.println(longestConsecutive(nums));
+    System.out.println(findDuplicate(nums));
+    System.out.println(frequencyAnalyzer(nums));
+}
+}
